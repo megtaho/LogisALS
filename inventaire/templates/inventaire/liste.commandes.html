@@ -1,14 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Liste des Commandes</title>
-</head>
-<body>
-    <h1>Liste des Commandes</h1>
-    <ul>
+<h1>Liste des commandes</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Type de Transaction</th>
+            <th>Quantité</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for commande in commandes %}
-            <li>{{ commande.type }} - {{ commande.produit.nom }} - {{ commande.montant_total }} €</li>
+            <tr>
+                <td>{{ commande.produit.nom }}</td>
+                <td>{{ commande.type_transaction }}</td>
+                <td>{{ commande.quantite }}</td>
+                <td>{{ commande.date_transaction }}</td>
+            </tr>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </tbody>
+</table>
+<a href="{% url 'enregistrer_commande' %}">Enregistrer une commande</a>
