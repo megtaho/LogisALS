@@ -1,0 +1,18 @@
+<!-- inventaire/templates/inventaire/rapport_ventes.html -->
+<h1>Rapport des produits les plus vendus</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Quantité vendue</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits_ventes %}
+            <tr>
+                <td>{{ produit.produit__nom }}</td>
+                <td>{{ produit.total_ventes }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
