@@ -17,9 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from inventaire import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventaire/', include('inventaire.urls')),
      path('', views.accueil, name='accueil'),
+     path('login/', auth_views.LoginView.as_view(), name='login'),  # Connexion
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Déconnexion
+    path('inscription/', views.inscription, name='inscription'),  # Inscription
+     path('accounts/profile/', views.profile, name='profile'), 
 ]
