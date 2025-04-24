@@ -26,5 +26,5 @@ urlpatterns = [
      path('login/', auth_views.LoginView.as_view(), name='login'),  # Connexion
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),  # Déconnexion
     path('inscription/', views.inscription, name='inscription'),  # Inscription
-     path('accounts/profile/', views.profile, name='profile'), 
+     path('profile/', views.profile, name='profile'), 
 ]
