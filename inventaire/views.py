@@ -1,5 +1,10 @@
 from django.shortcuts import render
 
+
+# Vue d'accueil
+def accueil(request):
+    return render(request, 'inventaire/accueil.html')
+
 from .models import Produit
 
 # Vue pour afficher tous les produits
