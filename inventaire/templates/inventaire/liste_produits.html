@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Produits</title>
+</head>
+<body>
+    <h1>Liste des Produits</h1>
+    <ul>
+        {% for produit in produits %}
+            <li>{{ produit.nom }} - {{ produit.prix }} €</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

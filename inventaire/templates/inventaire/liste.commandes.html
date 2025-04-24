@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Commandes</title>
+</head>
+<body>
+    <h1>Liste des Commandes</h1>
+    <ul>
+        {% for commande in commandes %}
+            <li>{{ commande.type }} - {{ commande.produit.nom }} - {{ commande.montant_total }} €</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
