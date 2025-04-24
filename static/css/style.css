@@ -1,0 +1,32 @@
+/* static/css/style.css */
+
+/* Style pour la navbar */
+nav {
+    background-color: #333; /* Couleur de fond de la navbar */
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none; /* Supprimer les puces des éléments de la liste */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Empêche les éléments de dépasser */
+}
+
+nav ul li {
+    display: inline; /* Les éléments de la liste sont alignés horizontalement */
+    margin-right: 15px; /* Espacement entre les liens */
+}
+
+nav ul li a {
+    color: white; /* Couleur du texte des liens */
+    text-decoration: none; /* Enlever le soulignement des liens */
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    background-color: #ddd; /* Couleur de fond au survol */
+    color: black; /* Couleur du texte au survol */
+    padding: 5px;
+    border-radius: 5px; /* Arrondir les bords */
+}
