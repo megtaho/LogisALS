@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Modèle Produit
 class Produit(models.Model):
@@ -9,6 +10,11 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.nom  # Renvoie le nom du produit dans l'admin Django
+    
+    def save(self, *args, **kwargs):
+        if self.quantite_stock < 0:
+            raise   ValueError("la quantité en stock ne peut pas être négative")
+        super(Produit, self).save(*args, **kwargs)
 
 # Modèle Utilisateur
 class Utilisateur(models.Model):
@@ -44,6 +50,11 @@ class Commande(models.Model):
 
     def __str__(self):
         return f'{self.type} - {self.produit.nom}'  # Affiche le type de commande et le nom du produit
+    def save(self, *args, **kwargs):
+         # Empêcher de sauver une commande avec une quantité en stock négative
+        if self.quantite < 0:
+            raise ValueError("La quantité de la commande ne peut pas être négative.")
+        super(Commande, self).save(*args, **kwargs)
 
 # Modèle Rapport
 class Rapport(models.Model):
@@ -55,6 +66,7 @@ class Rapport(models.Model):
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)  # Le type de rapport (vente, stock, réapprovisionnement)
     date_generation = models.DateField()  # La date de génération du rapport
     resume = models.TextField()  # Le résumé du rapport
+    statut = models.CharField(max_length=15, choices=[('en_attente', 'En Attente'), ('termine', 'Terminé')], default='en_attente')  # Statut du rapport
 
     def __str__(self):
         return f'Rapport {self.type} - {self.date_generation}'  # Affiche le type et la date de génération du rapport
