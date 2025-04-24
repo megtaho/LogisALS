@@ -1,14 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Liste des Produits</title>
-</head>
-<body>
-    <h1>Liste des Produits</h1>
-    <ul>
+<h1>Liste des produits</h1>
+<form method="GET">
+    <input type="text" name="search" placeholder="Rechercher par nom" value="{{ request.GET.search }}">
+    <button type="submit">Rechercher</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Quantité en stock</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for produit in produits %}
-            <li>{{ produit.nom }} - {{ produit.prix }} €</li>
+            <tr>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.prix }} €</td>
+                <td>{{ produit.quantite_stock }}</td>
+                <td>
+                    <a href="{% url 'modifier_produit' produit.pk %}">Modifier</a> |
+                    <a href="{% url 'supprimer_produit' produit.pk %}">Supprimer</a>
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </tbody>
+</table>
+<a href="{% url 'ajouter_produit' %}">Ajouter un produit</a>

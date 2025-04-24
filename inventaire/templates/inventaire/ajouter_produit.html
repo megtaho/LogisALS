@@ -1,11 +1,9 @@
 <!-- inventaire/templates/inventaire/ajouter_produit.html -->
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Ajouter un produit</title>
-</head>
+
 <body>
-    <h1>Ajouter un produit</h1>
+    <h1>Ajouter un nouveau produit</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
