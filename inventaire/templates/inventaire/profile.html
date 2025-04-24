@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon profil</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS pour la navbar -->
 </head>
 <body>
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'liste_produits' %}">Produits</a></li>
+            <li><a href="{% url 'liste_commandes' %}">Commandes</a></li>
+            <li><a href="{% url 'rapport_ventes' %}">Rapports</a></li>
+            <li><a href="{% url 'profile' %}">Mon profil</a></li>
+            <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+        </ul>
+    </nav>
+
     <h1>Bienvenue, {{ user.username }} !</h1>
     <p>Ceci est votre page de profil.</p>
-    <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+
+    <!-- Option pour modifier le profil ou changer de mot de passe -->
+    
 </body>
 </html>
