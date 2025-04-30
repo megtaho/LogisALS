@@ -15,5 +15,4 @@ urlpatterns = [
     path('produit/modifier/<int:pk>/', views.modifier_produit, name='modifier_produit'),
     path('produit/supprimer/<int:pk>/', views.supprimer_produit, name='supprimer_produit'),
 
-
 ]

@@ -18,6 +18,7 @@ class Produit(models.Model):
 
 # Modèle Utilisateur
 class Utilisateur(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     ROLE_CHOICES = [
         ('admin', 'Administrateur'),
         ('employe', 'Employé'),
@@ -27,7 +28,7 @@ class Utilisateur(models.Model):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)  # Le rôle de l'utilisateur (admin ou employé)
 
     def __str__(self):
-        return self.nom  # Renvoie le nom de l'utilisateur dans l'admin Django
+        return self.user.nom  # Renvoie le nom de l'utilisateur dans l'admin Django
 
 # Modèle Commande
 class Commande(models.Model):
