@@ -4,14 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un compte</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS -->
+    <style>
+        /* Style général pour la page d'inscription */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("{% static 'images/background.jpg' %}");  /* Lien vers l'image d'arrière-plan */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Conteneur pour le formulaire d'inscription */
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);  /* Fond semi-transparent pour le contraste du texte */
+            padding: 40px;
+            border-radius: 10px;
+            color: white;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form input {
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        form input:focus {
+            border: 2px solid #007BFF;
+        }
+
+        form button {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .login-link {
+            text-align: center;
+            font-size: 1em;
+            color: white;
+        }
+
+        .login-link a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Créer un compte</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Affiche les champs du formulaire -->
-        <button type="submit">S'inscrire</button>
-    </form>
-    <p>Vous avez déjà un compte ? <a href="{% url 'login' %}">Connectez-vous ici</a>.</p>
+    <div class="container">
+        <h1>Créer un compte</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Affiche les champs du formulaire -->
+            <button type="submit">S'inscrire</button>
+        </form>
+
+        <p class="login-link">Vous avez déjà un compte ? <a href="{% url 'login' %}">Connectez-vous ici</a>.</p>
+    </div>
 </body>
 </html>

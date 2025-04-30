@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -6,23 +6,126 @@
     <title>Mon profil</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS pour la navbar -->
+    <style>
+        /* Style pour la navbar */
+        nav {
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #444;
+        }
+
+        nav ul li a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Style pour la page de profil */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 50px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+
+        .profile-container {
+            background-color: white;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .profile-container button {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .profile-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .profile-container a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .profile-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav>
         <ul>
-            <li><a href="{% url 'liste_produits' %}">Produits</a></li>
-            <li><a href="{% url 'liste_commandes' %}">Commandes</a></li>
-            <li><a href="{% url 'rapport_ventes' %}">Rapports</a></li>
+            
             <li><a href="{% url 'profile' %}">Mon profil</a></li>
-            <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+            <li><a href="{% url 'accueil' %}">Se déconnecter</a></li>
         </ul>
     </nav>
 
-    <h1>Bienvenue, {{ user.username }} !</h1>
-    <p>Ceci est votre page de profil.</p>
+    <!-- Page de profil -->
+    <div class="profile-container">
+        <h1>Bienvenue, {{ user.username }} !</h1>
+        <p>Ceci est votre page de profil.</p>
 
-    <!-- Option pour modifier le profil ou changer de mot de passe -->
-    
+        <!-- Boutons pour accéder aux différentes pages -->
+        <div>
+            <a href="{% url 'liste_produits' %}">
+                <button>Voir les Produits</button>
+            </a>
+            <a href="{% url 'liste_commandes' %}">
+                <button>Voir les Commandes</button>
+            </a>
+            <a href="{% url 'rapport_ventes' %}">
+                <button>Voir les Rapports</button>
+            </a>
+        </div>
+
+        <!-- Option pour modifier le profil ou changer de mot de passe -->
+        
+    </div>
 </body>
 </html>

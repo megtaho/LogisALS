@@ -4,15 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS -->
+    <style>
+        /* Style général pour la page de connexion */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url("{% static 'images/background.jpg' %}");  /* Image d'arrière-plan */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);  /* Fond semi-transparent pour le contraste du texte */
+            padding: 40px;
+            border-radius: 10px;
+            color: white;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form input {
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        form input:focus {
+            border: 2px solid #007BFF;
+        }
+
+        form button {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 1em;
+            color: white;
+        }
+
+        .signup-link a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Connexion</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Se connecter</button>
-    </form>
+    <div class="container">
+        <h1>Connexion</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Se connecter</button>
+        </form>
 
-    <p>Vous n'avez pas de compte ? <a href="{% url 'inscription' %}">Créer un compte</a></p>
+        <p class="signup-link">Vous n'avez pas de compte ? <a href="{% url 'inscription' %}">Créer un compte</a></p>
+    </div>
 </body>
 </html>
