@@ -1,18 +1,78 @@
-<!-- inventaire/templates/inventaire/accueil.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenue sur LogisALS</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS -->
+    <style>
+        /* Style général pour le fond d'écran et le contenu */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-image: url("{% static 'images/background.jpg' %}");  /* Lien vers l'image d'arrière-plan */
+            background-size: cover;  /* Adapter l'image à la taille de l'écran */
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* Conteneur pour le contenu principal */
+        .content {
+            background-color: rgba(0, 0, 0, 0.7);  /* Fond semi-transparent pour le contraste du texte */
+            padding: 50px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        a {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            background-color: #007BFF;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 10px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenue sur le site LogisALS !</h1>
-   
-    <h2>Connexion</h2>
-    <p><a href="{% url 'login' %}">Se connecter</a></p>
+    <div class="content">
+        <h1>Bienvenue sur le site LogisALS !</h1>
 
-    <h2>Inscription</h2>
-    <p><a href="{% url 'inscription' %}">Créer un compte</a></p>
+        <div>
+            <h2>.</h2>
+            <p><a href="{% url 'login' %}">Se connecter</a></p>
+        </div>
+
+        <div>
+            <h2>.</h2>
+            <p><a href="{% url 'inscription' %}">Créer un compte</a></p>
+        </div>
+    </div>
 </body>
 </html>
