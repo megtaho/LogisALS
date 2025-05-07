@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
+
 
 # Modèle Produit
 class Produit(models.Model):
@@ -18,7 +21,7 @@ class Produit(models.Model):
 
 # Modèle Utilisateur
 class Utilisateur(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     ROLE_CHOICES = [
         ('admin', 'Administrateur'),
         ('employe', 'Employé'),
@@ -42,7 +45,7 @@ class Commande(models.Model):
         ('annulee', 'Annulée'),
     ]
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)  # Type de la commande (achat ou vente)
-    date = models.DateField()  # La date de la commande
+    date = models.DateTimeField(default=timezone.now)  # La date de la commande
     montant_total = models.DecimalField(max_digits=10, decimal_places=2)  # Le montant total de la commande
     quantite = models.PositiveIntegerField()  # La quantité de produits commandés
     statut = models.CharField(max_length=10, choices=STATUT_CHOICES)  # Le statut de la commande (en cours, terminée, annulée)
@@ -51,11 +54,22 @@ class Commande(models.Model):
 
     def __str__(self):
         return f'{self.type} - {self.produit.nom}'  # Affiche le type de commande et le nom du produit
+    
     def save(self, *args, **kwargs):
          # Empêcher de sauver une commande avec une quantité en stock négative
         if self.quantite < 0:
             raise ValueError("La quantité de la commande ne peut pas être négative.")
-        super(Commande, self).save(*args, **kwargs)
+        # dans le cas où la commande est une vente, on ajuste la quantité en stock
+        if self.type == 'vente':
+            if self.quantite > self.produit.quantite_stock:
+                raise ValueError("la quantité demandée est supérieure au stock disponible")
+            self.produit.quantite_stock -= self.quantite
+        elif self.type == 'achat':
+            self.produit.quantite_stock += self.quantite
+
+        # sauvegarde de la commande
+        self.produit.save()
+        super().save(*args, **kwargs)
 
 # Modèle Rapport
 class Rapport(models.Model):

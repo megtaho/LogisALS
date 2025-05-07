@@ -1,22 +1,22 @@
 <h1>Liste des commandes</h1>
 <table>
-    <thead>
-        <tr>
-            <th>Produit</th>
-            <th>Type de Transaction</th>
-            <th>Quantité</th>
-            <th>Date</th>
-        </tr>
-    </thead>
+   
     <tbody>
         {% for commande in commandes %}
             <tr>
                 <td>{{ commande.produit.nom }}</td>
                 <td>{{ commande.type_transaction }}</td>
                 <td>{{ commande.quantite }}</td>
-                <td>{{ commande.date_transaction }}</td>
+                <td>{{ commande.date_transaction }}</td> 
             </tr>
         {% endfor %}
     </tbody>
 </table>
 <a href="{% url 'enregistrer_commande' %}">Enregistrer une commande</a>
+<p></p>
+<div>
+    <a href="{% url 'profile' %}">
+        <button type= "button">Retour au profil</button>
+    </a>
+</div>
+
