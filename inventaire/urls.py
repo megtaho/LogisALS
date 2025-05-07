@@ -7,6 +7,8 @@ urlpatterns = [
 
     # Route pour afficher la liste des commandes
     path('commandes/', views.liste_commandes, name='liste_commandes'),
+    path('commande/enregistrer/', views.enregistrer_commande, name='enregistrer_commande'),
+
 
     # Route pour afficher les rapports
     path('rapports/', views.rapport_ventes, name='rapport_ventes'),

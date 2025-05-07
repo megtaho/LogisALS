@@ -1,16 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Produit, Commande, Rapport
+from .models import Produit, Commande, Utilisateur, Rapport
 from .forms import ProduitForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.db.models import Sum
+
 
 # Vue pour l'inscription des utilisateurs
 def inscription(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Utilisateur.objects.create(user=user, nom=user.username, email=user.email, role='employe')  # Set default role to 'employe'
             messages.success(request, 'Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.')
             return redirect('login')  # Redirige l'utilisateur vers la page de connexion
     else:
@@ -82,26 +86,51 @@ def enregistrer_commande(request):
         type_transaction = request.POST['type_transaction']
         quantite = int(request.POST['quantite'])
 
+#je recupere le produit
         produit = Produit.objects.get(id=produit_id)
 
+        try:
+
+        #recupere l'objet de l'utilisateur connecte
+         utilisateur = Utilisateur.objects.get(user=request.user)
+        except Utilisateur.DoesNotExist:
+            utilisateur = Utilisateur.objects.create(user=request.user, nom=request.user.username, email=request.user.email, role='employe')
+
+            return render(request, 'inventaire/erreur_commande.html', {'message': "Utilisateur non trouvé, veuillez vous inscrire"})
+    
+
+
+
+
+
         # Mettre à jour la quantité du produit
+        if type_transaction == 'vente' and quantite > produit.quantite_stock:
+            # on verifie que la quantite demandee est disponible
+            return render(request, 'inventaire/erreur_commande.html', {'message': "quantite demandée supérieure au stock"})
         if type_transaction == 'vente':
             produit.quantite_stock -= quantite
         elif type_transaction == 'achat':
             produit.quantite_stock += quantite
+    
 
-        produit.save()
-
-        # Enregistrer la commande
+        # créer la commande
         commande = Commande.objects.create(
             produit=produit,
-            type_transaction=type_transaction,
+            type=type_transaction,
             quantite=quantite,
-            utilisateur=request.user
+            montant_total=produit.prix * quantite,
+            statut='en_cours',
+    
+            utilisateur=utilisateur
         )
 
+       
+        produit.save()
+
         return redirect('liste_commandes')
-    return render(request, 'inventaire/enregistrer_commande.html')
+    
+    produits = Produit.objects.all()
+    return render(request, 'inventaire/enregistrer_commande.html', {'produits': produits})
 
 
 

@@ -1,0 +1,23 @@
+<!-- inventaire/templates/inventaire/enregistrer_commande.html -->
+<h1>Enregistrer une commande</h1>
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="produit_id">Produit :</label>
+    <select name="produit_id" required>
+        {% for produit in produits %}
+            <option value="{{ produit.id }}">{{ produit.nom }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="type_transaction">Type de transaction :</label>
+    <select name="type_transaction" required>
+        <option value="achat">Achat</option>
+        <option value="vente">Vente</option>
+    </select><br>
+
+    <label for="quantite">Quantité :</label>
+    <input type="number" name="quantite" min="1" required><br>
+
+    <button type="submit">Enregistrer</button>
+</form>
