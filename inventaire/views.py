@@ -129,7 +129,22 @@ def rapport_ventes(request):
         .values('produit__nom') \
         .annotate(total_ventes=Sum('quantite')) \
         .order_by('-total_ventes')  # Order by total sales quantity
+     #total des commandes
+     produits_achats = Commande.objects.filter(type='achat') \
+        .values('produit__nom') \
+        .annotate(total_achats=Sum('quantite')) \
+        .order_by('-total_achats') 
+     #niveau de stock
+     stocks = Produit.objects.all().values('nom', 'quantite_stock')
 
-     return render(request, 'inventaire/rapport_ventes.html', {'produits_ventes': produits_ventes})
+     return render(request, 'inventaire/rapport_ventes.html', {
+         'produits_ventes': produits_ventes,
+         'produits_achats': produits_achats,
+         'stocks': stocks,
+         
+    })
 
 
+def rapport_stock(request):
+    produits_stock = Produit.objects.all()
+    return render(request, 'inventaire/rapport_stock.html', {'produits_stock': produits_stock})

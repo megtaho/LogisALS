@@ -1,10 +1,12 @@
-<!-- inventaire/templates/inventaire/rapport_ventes.html -->
-<h1>Rapport des ventes</h1>
+<h1>Rapport des ventes et des stocks</h1>
+
+<!-- Section for Most Sold Products -->
+<h2>Produits les plus vendus</h2>
 <table>
     <thead>
         <tr>
             <th>Nom du produit</th>
-            <th>total des ventes</th>
+            <th>Total des ventes</th>
         </tr>
     </thead>
     <tbody>
@@ -16,3 +18,47 @@
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Section for Most Purchased Products -->
+<h2>Produits les plus achetés</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nom du produit</th>
+            <th>Total des achats</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits_achats %}
+            <tr>
+                <td>{{ produit.produit__nom }}</td>
+                <td>{{ produit.total_achats }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Section for Stock Levels -->
+<h2>Stock actuel des produits</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nom du produit</th>
+            <th>Quantité en stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in stocks %}
+            <tr>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.quantite_stock }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div>
+    <a href="{% url 'profile' %}">
+        <button type="button">Retour au profil</button>
+    </a>
+</div>
