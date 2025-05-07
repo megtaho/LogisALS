@@ -1,0 +1,20 @@
+<h1>Rapport des stocks</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Nom du produit</th>
+            <th>Quantité en stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits_stock %}
+            <tr>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.quantite_stock }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<button type= "button">Retour au profil</button>
+</a>
+</div>
