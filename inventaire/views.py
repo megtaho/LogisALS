@@ -86,56 +86,42 @@ def enregistrer_commande(request):
         type_transaction = request.POST['type_transaction']
         quantite = int(request.POST['quantite'])
 
-#je recupere le produit
+        # Récupérer le produit
         produit = Produit.objects.get(id=produit_id)
 
         try:
-
-        #recupere l'objet de l'utilisateur connecte
-         utilisateur = Utilisateur.objects.get(user=request.user)
+            # Récupérer l'objet de l'utilisateur connecté
+            utilisateur = Utilisateur.objects.get(user=request.user)
         except Utilisateur.DoesNotExist:
-            utilisateur = Utilisateur.objects.create(user=request.user, nom=request.user.username, email=request.user.email, role='employe')
-
             return render(request, 'inventaire/erreur_commande.html', {'message': "Utilisateur non trouvé, veuillez vous inscrire"})
-    
 
-
-
-
-
-        # Mettre à jour la quantité du produit
+        # Vérification des quantités disponibles si c'est une vente
         if type_transaction == 'vente' and quantite > produit.quantite_stock:
-            # on verifie que la quantite demandee est disponible
-            return render(request, 'inventaire/erreur_commande.html', {'message': "quantite demandée supérieure au stock"})
-        if type_transaction == 'vente':
-            produit.quantite_stock -= quantite
-        elif type_transaction == 'achat':
-            produit.quantite_stock += quantite
-    
+            return render(request, 'inventaire/erreur_commande.html', {'message': "Quantité demandée supérieure au stock"})
 
-        # créer la commande
+        # Mettre à jour la quantité du produit en fonction du type de transaction
+        if type_transaction == 'vente':
+            produit.quantite_stock -= quantite  # Réduire la quantité en stock
+        elif type_transaction == 'achat':
+            produit.quantite_stock += quantite  # Augmenter la quantité en stock
+
+        produit.save()  # Sauvegarder les changements de stock
+
+        # Créer la commande
         commande = Commande.objects.create(
             produit=produit,
             type=type_transaction,
             quantite=quantite,
             montant_total=produit.prix * quantite,
             statut='en_cours',
-    
             utilisateur=utilisateur
         )
-
-       
-        produit.save()
 
         return redirect('liste_commandes')
     
     produits = Produit.objects.all()
     return render(request, 'inventaire/enregistrer_commande.html', {'produits': produits})
 
-
-
-# inventaire/views.py
-from .models import Rapport
 
 
 def rapport_ventes(request):
