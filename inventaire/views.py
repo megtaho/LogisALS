@@ -125,9 +125,11 @@ def enregistrer_commande(request):
 
 
 def rapport_ventes(request):
-    produits_ventes = Commande.objects.filter(type_transaction='vente') \
+     produits_ventes = Commande.objects.filter(type='vente') \
         .values('produit__nom') \
         .annotate(total_ventes=Sum('quantite')) \
-        .order_by('-total_ventes')
+        .order_by('-total_ventes')  # Order by total sales quantity
 
-    return render(request, 'inventaire/rapport_ventes.html', {'produits_ventes': produits_ventes})
+     return render(request, 'inventaire/rapport_ventes.html', {'produits_ventes': produits_ventes})
+
+
