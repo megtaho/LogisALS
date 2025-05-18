@@ -7,9 +7,22 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS pour la navbar -->
     <style>
+        /* Style global pour l'image de fond */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/entrepot.jpg' %}"); /* Lien vers votre image d'entrepôt */
+            background-size: cover;  /* Cette propriété permet de couvrir toute la zone de l'écran avec l'image */
+            background-position: center;  /* Centre l'image d'arrière-plan */
+            background-attachment: fixed;  /* L'image reste fixe lorsque l'on défile la page */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: black;  /* Texte blanc pour contraste */
+        }
+
         /* Style pour la navbar */
         nav {
-            background-color: #333;
+            background-color: rgba(0, 123, 255, 0.7);  /* Transparence du fond de la navbar */
             padding: 15px;
             text-align: center;
         }
@@ -40,26 +53,8 @@
         }
 
         /* Style pour la page de profil */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-top: 50px;
-        }
-
-        p {
-            font-size: 1.2em;
-            margin: 20px 0;
-        }
-
         .profile-container {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.8);  /* Fond légèrement transparent pour la section */
             padding: 30px;
             margin-top: 50px;
             border-radius: 10px;
@@ -68,6 +63,11 @@
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .profile-container h1 {
+            color: #333;
+            margin-top: 0;
         }
 
         .profile-container button {
@@ -100,8 +100,6 @@
     <!-- Navbar -->
     <nav>
         <ul>
-            
-            <li><a href="{% url 'profile' %}">Mon profil</a></li>
             <li><a href="{% url 'accueil' %}">Se déconnecter</a></li>
         </ul>
     </nav>
@@ -125,7 +123,6 @@
         </div>
 
         <!-- Option pour modifier le profil ou changer de mot de passe -->
-        
     </div>
 </body>
 </html>

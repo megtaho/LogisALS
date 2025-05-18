@@ -1,64 +1,181 @@
-<h1>Rapport des ventes et des stocks</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport des ventes et des stocks</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS -->
+    <style>
+        /* Style général pour la page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
 
-<!-- Section for Most Sold Products -->
-<h2>Produits les plus vendus</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Nom du produit</th>
-            <th>Total des ventes</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for produit in produits_ventes %}
-            <tr>
-                <td>{{ produit.produit__nom }}</td>
-                <td>{{ produit.total_ventes }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
 
-<!-- Section for Most Purchased Products -->
-<h2>Produits les plus achetés</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Nom du produit</th>
-            <th>Total des achats</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for produit in produits_achats %}
-            <tr>
-                <td>{{ produit.produit__nom }}</td>
-                <td>{{ produit.total_achats }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+            color: #333;
+        }
 
-<!-- Section for Stock Levels -->
-<h2>Stock actuel des produits</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Nom du produit</th>
-            <th>Quantité en stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for produit in stocks %}
-            <tr>
-                <td>{{ produit.nom }}</td>
-                <td>{{ produit.quantite_stock }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        /* Style pour les tables */
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
 
-<div>
-    <a href="{% url 'profile' %}">
-        <button type="button">Retour au profil</button>
-    </a>
-</div>
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Section des produits les plus vendus */
+        .ventes {
+            background-color: #007BFF;
+        }
+
+        .ventes th {
+            background-color: #0056b3;
+        }
+
+        /* Section des produits les plus achetés */
+        .achats {
+            background-color: #28a745;
+        }
+
+        .achats th {
+            background-color: #218838;
+        }
+
+        /* Section du stock actuel */
+        .stock {
+            background-color: #ffc107;
+        }
+
+        .stock th {
+            background-color: #e0a800;
+        }
+
+        td a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bouton Retour au profil */
+        .btn-profile {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-profile:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Rapport des ventes et des stocks</h1>
+
+    <!-- Section des produits les plus vendus -->
+    <div class="ventes">
+        <h2>Produits les plus vendus</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Total des ventes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produit in produits_ventes %}
+                    <tr>
+                        <td>{{ produit.produit__nom }}</td>
+                        <td>{{ produit.total_ventes }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section des produits les plus achetés -->
+    <div class="achats">
+        <h2>Produits les plus achetés</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Total des achats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produit in produits_achats %}
+                    <tr>
+                        <td>{{ produit.produit__nom }}</td>
+                        <td>{{ produit.total_achats }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section des stocks actuels -->
+    <div class="stock">
+        <h2>Stock actuel des produits</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Quantité en stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produit in stocks %}
+                    <tr>
+                        <td>{{ produit.nom }}</td>
+                        <td>{{ produit.quantite_stock }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bouton Retour au profil -->
+    <div>
+        <a href="{% url 'profile' %}" class="btn-profile">Retour au profil</a>
+    </div>
+
+</body>
+</html>

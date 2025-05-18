@@ -8,7 +8,7 @@ from django.utils import timezone
 class Produit(models.Model):
     nom = models.CharField(max_length=100)  # Le nom du produit
     description = models.TextField()        # La description du produit
-    prix = models.DecimalField(max_digits=10, decimal_places=2)  # Le prix du produit
+    prix = models.PositiveIntegerField()  # Le prix du produit
     quantite_stock = models.PositiveIntegerField()  # La quantité en stock
 
     def __str__(self):
@@ -56,20 +56,29 @@ class Commande(models.Model):
         return f'{self.type} - {self.produit.nom}'  # Affiche le type de commande et le nom du produit
     
     def save(self, *args, **kwargs):
-         # Empêcher de sauver une commande avec une quantité en stock négative
+        # Empêcher de sauver une commande avec une quantité en stock négative
         if self.quantite < 0:
             raise ValueError("La quantité de la commande ne peut pas être négative.")
-        # dans le cas où la commande est une vente, on ajuste la quantité en stock
+        
+        # Vérification du type de transaction (achat ou vente)
         if self.type == 'vente':
+            # Vérifier que le stock est suffisant pour la vente
             if self.quantite > self.produit.quantite_stock:
-                raise ValueError("la quantité demandée est supérieure au stock disponible")
+                raise ValueError("La quantité demandée est supérieure au stock disponible.")
+            
+            # Réduire le stock pour la vente
             self.produit.quantite_stock -= self.quantite
-        elif self.type == 'achat':
-            self.produit.quantite_stock += self.quantite
 
-        # sauvegarde de la commande
+        elif self.type == 'achat':
+            # Augmenter le stock pour l'achat
+            self.produit.quantite_stock += self.quantite
+        
+        # Sauvegarder les changements du produit
         self.produit.save()
+
+        # Appeler la méthode save() de la commande après avoir modifié le stock
         super().save(*args, **kwargs)
+
 
 # Modèle Rapport
 class Rapport(models.Model):
