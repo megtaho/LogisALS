@@ -1,33 +1,163 @@
-<h1>Liste des commandes</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Produit</th>
-            <th>Type de transaction</th>
-            <th>Quantité</th>
-            <th>Montant total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for commande in commandes %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des commandes</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Lien vers le fichier CSS -->
+    <style>
+        /* Style général de la page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-top: 50px;
+        }
+
+        /* Formulaire de recherche */
+        form {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table des commandes */
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;  /* Fond blanc pour le tableau */
+            border-radius: 8px;  /* Bordures arrondies pour le tableau */
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bouton Ajouter une commande */
+        a {
+            text-decoration: none;
+        }
+
+        .btn-ajouter {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .btn-ajouter:hover {
+            background-color: #218838;
+        }
+
+        /* Bouton Retour au profil */
+        .btn-profile {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-profile:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des commandes</h1>
+
+    <!-- Table des commandes -->
+    <table>
+        <thead>
             <tr>
-                <td>{{ commande.produit.nom }}</td>
-                <td>
-                    {% if commande.type == 'achat' %}
-                        Achat
-                    {% else %}
-                        Vente
-                    {% endif %}
-                </td>
-                <td>{{ commande.quantite }}</td>
-                <td>{{ commande.montant_total }} €</td>
+                <th>Produit</th>
+                <th>Type de transaction</th>
+                <th>Quantité</th>
+                <th>Montant total</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'enregistrer_commande' %}">Enregistrer une commande</a>
-<div>
-    <a href="{% url 'profile' %}">
-        <button type="button">Retour au profil</button>
-    </a>
-</div>
+        </thead>
+        <tbody>
+            {% for commande in commandes %}
+                <tr>
+                    <td>{{ commande.produit.nom }}</td>
+                    <td>
+                        {% if commande.type_transaction == 'achat' %}
+                            Achat
+                        {% else %}
+                            Vente
+                        {% endif %}
+                    </td>
+                    <td>{{ commande.quantite }}</td>
+                    <td>{{ commande.montant_total }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Bouton Ajouter une commande -->
+    <a href="{% url 'enregistrer_commande' %}" class="btn-ajouter">Enregistrer une commande</a>
+
+    <!-- Bouton Retour au profil -->
+    <div>
+        <a href="{% url 'profile' %}" class="btn-profile">Retour au profil</a>
+    </div>
+</body>
+</html>

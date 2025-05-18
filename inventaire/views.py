@@ -145,6 +145,3 @@ def rapport_ventes(request):
     })
 
 
-def rapport_stock(request):
-    produits_stock = Produit.objects.all()
-    return render(request, 'inventaire/rapport_stock.html', {'produits_stock': produits_stock})
