@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier le statut de la commande</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="card shadow mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Modifier le statut de la commande</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Produit :</strong> {{ commande.produit.nom }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="statut" class="form-label">Nouveau statut :</label>
+                    <select name="statut" id="statut" class="form-select" required>
+                        {% for value, label in commande.STATUT_CHOICES %}
+                            <option value="{{ value }}" {% if commande.statut == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success w-100">✅ Enregistrer</button>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'liste_commandes' %}" class="btn btn-link">⬅ Retour à la liste des commandes</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
