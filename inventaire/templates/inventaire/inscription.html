@@ -1,105 +1,109 @@
 <!DOCTYPE html>
 <html lang="fr">
+{% load static widget_tweaks %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un compte</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS -->
-    <style>
-        /* Style général pour la page d'inscription */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background-image: url("{% static 'images/background.jpg' %}");  /* Lien vers l'image d'arrière-plan */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Créer un compte – LogisALS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        /* Conteneur pour le formulaire d'inscription */
-        .container {
-            background-color: rgba(0, 0, 0, 0.7);  /* Fond semi-transparent pour le contraste du texte */
-            padding: 40px;
-            border-radius: 10px;
-            color: white;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    .register-container {
+      max-width: 420px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      color: #0d6efd;
+      margin-bottom: 30px;
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+    }
 
-        form input {
-            padding: 15px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            border: none;
-            margin-bottom: 10px;
-            outline: none;
-        }
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #0d6efd;
+    }
 
-        form input:focus {
-            border: 2px solid #007BFF;
-        }
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
 
-        form button {
-            background-color: #007BFF;
-            color: white;
-            padding: 15px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .login-link a {
+      color: #0d6efd;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-        form button:hover {
-            background-color: #0056b3;
-        }
-
-        .login-link {
-            text-align: center;
-            font-size: 1em;
-            color: white;
-        }
-
-        .login-link a {
-            color: #007BFF;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Créer un compte</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}  <!-- Affiche les champs du formulaire -->
-            <button type="submit">S'inscrire</button>
-        </form>
 
-        <p class="login-link">Vous avez déjà un compte ? <a href="{% url 'login' %}">Connectez-vous ici</a>.</p>
-    </div>
+<div class="container">
+  <div class="register-container">
+    <h1>Créer un compte</h1>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+
+          {% if field.name == "password1" or field.name == "password2" %}
+            <div class="input-group">
+              {{ field|add_class:"form-control" }}
+              <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('{{ field.auto_id }}')">👁️</button>
+            </div>
+            {% if field.name == "password1" %}
+              <small class="form-text text-muted">Le mot de passe doit contenir au moins 8 caractères.</small>
+            {% endif %}
+          {% else %}
+            {{ field|add_class:"form-control" }}
+          {% endif %}
+
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+
+    <p class="login-link">Déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+  </div>
+</div>
+
+<script>
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+  }
+</script>
+
 </body>
 </html>

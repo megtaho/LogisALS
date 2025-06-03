@@ -2,78 +2,104 @@
 <html lang="fr">
 {% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenue sur LogisALS</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS -->
-    <style>
-        /* Style général pour le fond d'écran et le contenu */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width:100%;
-            background: url("{% static 'images/background.jpg' %}");  /* Lien vers l'image d'arrière-plan */
-            background-size: cover;  /* Adapter l'image à la taille de l'écran */
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LogisALS – Gestion d'inventaire industrielle</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
 
-        /* Conteneur pour le contenu principal */
-        .content {
-            background-color: rgba(0, 0, 0, 0.7);  /* Fond semi-transparent pour le contraste du texte */
-            padding: 50px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-        }
+    .hero-container {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
 
-        h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
 
-        h2 {
-            font-size: 2em;
-            margin: 10px 0;
-        }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
 
-        a {
-            font-size: 1.5em;
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            background-color: #007BFF;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            margin: 10px;
-        }
+    h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+    }
 
-        a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    p.description {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    video.bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .btn-lg {
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      margin: 10px 10px 0 10px;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      p.description {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="content">
-        <h1>Bienvenue sur le site LogisALS !</h1>
 
-        <div>
-            <h2>.</h2>
-            <p><a href="{% url 'login' %}">Se connecter</a></p>
-        </div>
+<div class="hero-container">
 
-        <div>
-            <h2>.</h2>
-            <p><a href="{% url 'inscription' %}">Créer un compte</a></p>
-        </div>
+  <!-- 🎥 Vidéo de fond -->
+  <video class="bg-video" autoplay muted loop>
+    <source src="{% static 'videos/industrie.mp4' %}" type="video/mp4" />
+    Votre navigateur ne supporte pas la vidéo HTML5.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1>Bienvenue sur LogisALS</h1>
+    <p class="description">Solution professionnelle pour la gestion industrielle des stocks, achats et ventes.</p>
+    <div>
+      <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Se connecter</a>
+      <a href="{% url 'inscription' %}" class="btn btn-outline-light btn-lg">Créer un compte</a>
+      <a href="{% url 'a_propos' %}" class="btn btn-outline-info btn-lg">En savoir plus</a>
     </div>
+  </div>
+
+</div>
+
 </body>
 </html>

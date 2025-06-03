@@ -1,128 +1,82 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="fr">
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon profil</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Lien vers le fichier CSS pour la navbar -->
-    <style>
-        /* Style global pour l'image de fond */
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/entrepot.jpg' %}"); /* Lien vers votre image d'entrepôt */
-            background-size: cover;  /* Cette propriété permet de couvrir toute la zone de l'écran avec l'image */
-            background-position: center;  /* Centre l'image d'arrière-plan */
-            background-attachment: fixed;  /* L'image reste fixe lorsque l'on défile la page */
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: black;  /* Texte blanc pour contraste */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mon profil – LogisALS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        /* Style pour la navbar */
-        nav {
-            background-color: rgba(0, 123, 255, 0.7);  /* Transparence du fond de la navbar */
-            padding: 15px;
-            text-align: center;
-        }
+    .navbar-custom {
+      background-color: #0d6efd;
+    }
 
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
+    .navbar-custom .nav-link {
+      color: white;
+      font-weight: bold;
+    }
 
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
+    .navbar-custom .nav-link:hover {
+      color: #ffc107;
+    }
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 5px;
-            background-color: #444;
-        }
+    .profile-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
 
-        nav ul li a:hover {
-            background-color: #ddd;
-            color: black;
-        }
+    .profile-container h1 {
+      font-size: 2rem;
+      color: #0d6efd;
+      margin-bottom: 20px;
+    }
 
-        /* Style pour la page de profil */
-        .profile-container {
-            background-color: rgba(255, 255, 255, 0.8);  /* Fond légèrement transparent pour la section */
-            padding: 30px;
-            margin-top: 50px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+    .profile-container p {
+      color: #555;
+      margin-bottom: 30px;
+    }
 
-        .profile-container h1 {
-            color: #333;
-            margin-top: 0;
-        }
-
-        .profile-container button {
-            background-color: #007BFF;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        .profile-container button:hover {
-            background-color: #0056b3;
-        }
-
-        .profile-container a {
-            color: #007BFF;
-            text-decoration: none;
-            font-size: 1.1em;
-        }
-
-        .profile-container a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .btn-custom {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav>
-        <ul>
-            <li><a href="{% url 'accueil' %}">Se déconnecter</a></li>
-        </ul>
-    </nav>
 
-    <!-- Page de profil -->
-    <div class="profile-container">
-        <h1>Bienvenue, {{ user.username }} !</h1>
-        <p>Ceci est votre page de profil.</p>
-
-        <!-- Boutons pour accéder aux différentes pages -->
-        <div>
-            <a href="{% url 'liste_produits' %}">
-                <button>Voir les Produits</button>
-            </a>
-            <a href="{% url 'liste_commandes' %}">
-                <button>Voir les Commandes</button>
-            </a>
-            <a href="{% url 'rapport_ventes' %}">
-                <button>Voir les Rapports</button>
-            </a>
-        </div>
-
-        <!-- Option pour modifier le profil ou changer de mot de passe -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+      <a class="navbar-brand text-white" href="#">LogisALS</a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accueil' %}">Se déconnecter</a>
+        </li>
+      </ul>
     </div>
+  </nav>
+
+  <!-- Section Profil -->
+  <div class="profile-container">
+    <h1>Bienvenue, {{ user.username }} !</h1>
+    <p>Bienvenue dans votre espace personnel de gestion d'inventaire.</p>
+
+    <a href="{% url 'liste_produits' %}" class="btn btn-primary btn-custom">📦 Voir les Produits</a>
+    <a href="{% url 'liste_commandes' %}" class="btn btn-success btn-custom">🧾 Voir les Commandes</a>
+    <a href="{% url 'rapport_ventes' %}" class="btn btn-warning btn-custom text-white">📊 Voir les Rapports</a>
+    <a href="{% url 'gestion_stock' %}" class="btn btn-outline-info btn-lg">Gestion des stocks</a>
+
+  </div>
+
 </body>
 </html>

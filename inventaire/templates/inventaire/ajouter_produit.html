@@ -1,123 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
+{% load static widget_tweaks %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un nouveau produit</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Lien vers le fichier CSS -->
-    <style>
-        /* Style général pour la page */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter un nouveau produit – LogisALS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-top: 50px;
-            margin-bottom: 30px;
-        }
+    .form-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    }
 
-        /* Formulaire d'ajout de produit */
-        form {
-            background-color: white;
-            padding: 40px;
-            margin: 0 auto;
-            width: 50%;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    h1 {
+      text-align: center;
+      color: #0d6efd;
+      margin-bottom: 30px;
+    }
 
-        form input, form select, form textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 1em;
-        }
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
 
-        form button {
-            background-color: #28a745;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+    }
 
-        form button:hover {
-            background-color: #218838;
-        }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
 
-        /* Style pour le titre de chaque champ */
-        label {
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            display: block;
-            text-align: left;
-            color: #333;
-        }
+    .back-link a {
+      color: #6c757d;
+      text-decoration: none;
+    }
 
-        /* Style pour les sections de formulaire */
-        .form-section {
-            margin-bottom: 30px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            form {
-                width: 80%;
-            }
-        }
-    </style>
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
+<div class="container">
+  <div class="form-container">
     <h1>Ajouter un nouveau produit</h1>
-
     <form method="POST">
-        {% csrf_token %}
-        
-        <!-- Nom du produit -->
-        <div class="form-section">
-            <label for="id_nom">Nom du produit</label>
-            {{ form.nom }}
-        </div>
-        
-        <!-- Description du produit -->
-        <div class="form-section">
-            <label for="id_description">Description</label>
-            {{ form.description }}
-        </div>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_nom">Nom du produit</label>
+        {{ form.nom|add_class:"form-control" }}
+      </div>
 
-        <!-- Prix du produit -->
-        <div class="form-section">
-            <label for="id_prix">Prix</label>
-            {{ form.prix }}
-        </div>
+      <div class="mb-3">
+        <label for="id_description">Description</label>
+        {{ form.description|add_class:"form-control" }}
+      </div>
 
-        <!-- Quantité en stock -->
-        <div class="form-section">
-            <label for="id_quantite_stock">Quantité en stock</label>
-            {{ form.quantite_stock }}
-        </div>
+      <div class="mb-3">
+        <label for="id_prix">Prix</label>
+        {{ form.prix|add_class:"form-control" }}
+      </div>
 
-        
+      <div class="mb-3">
+        <label for="id_quantite_stock">Quantité en stock</label>
+        {{ form.quantite_stock|add_class:"form-control" }}
+      </div>
 
-        <!-- Bouton de soumission -->
-        <button type="submit">Ajouter le produit</button>
+      <button type="submit" class="btn btn-success btn-submit">Ajouter le produit</button>
     </form>
-    <div>
-        <a href="{% url 'profile' %}" class="btn-profile">Retour au profil</a>
+
+    <div class="back-link">
+      <a href="{% url 'profile' %}">← Retour au profil</a>
     </div>
+  </div>
+</div>
 
 </body>
 </html>
