@@ -1,116 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrer une commande</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Lien vers le fichier CSS -->
-    <style>
-        /* Style général pour la page */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-top: 50px;
-        }
-
-        /* Formulaire d'enregistrement de commande */
-        form {
-            background-color: white;
-            padding: 40px;
-            margin: 50px auto;
-            width: 50%;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-
-        /* Style pour chaque champ */
-        form label {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            display: block;
-            color: #333;
-        }
-
-        form select, form input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 1em;
-        }
-
-        /* Bouton de soumission */
-        form button {
-            background-color: #28a745;
-            color: white;
-            font-size: 1.1em;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        form button:hover {
-            background-color: #218838;
-        }
-
-        /* Section pour rendre le formulaire responsive */
-        @media (max-width: 768px) {
-            form {
-                width: 80%;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-        }
-    </style>
+    <title>Enregistrer une commande – LogisALS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #f4f4f4;">
 
-    <h1>Enregistrer une commande</h1>
+<div class="container py-5">
+    <h1 class="text-center text-primary mb-5">Enregistrer une commande</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        
-        <!-- Sélectionner le produit -->
-        <label for="produit_id">Produit :</label>
-        <select name="produit_id" required>
-            {% for produit in produits %}
-                <option value="{{ produit.id }}">{{ produit.nom }}</option>
-            {% endfor %}
-        </select>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 bg-white p-4 rounded shadow">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="produit_id" class="form-label">Produit :</label>
+                    <select name="produit_id" class="form-select" required>
+                        {% for produit in produits %}
+                            <option value="{{ produit.id }}">{{ produit.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <!-- Type de transaction (Achat/Vente) -->
-        <label for="type_transaction">Type de transaction :</label>
-        <select name="type_transaction" required>
-            <option value="achat">Achat</option>
-            <option value="vente">Vente</option>
-        </select>
+                <div class="mb-3">
+                    <label for="type_transaction" class="form-label">Type de transaction :</label>
+                    <select name="type_transaction" class="form-select" required>
+                        <option value="achat">Achat</option>
+                        <option value="vente">Vente</option>
+                    </select>
+                </div>
 
-        <!-- Quantité -->
-        <label for="quantite">Quantité :</label>
-        <input type="number" name="quantite" min="1" required>
+                <div class="mb-4">
+                    <label for="quantite" class="form-label">Quantité :</label>
+                    <input type="number" name="quantite" min="1" class="form-control" required>
+                </div>
 
-        <!-- Bouton d'enregistrement -->
-        <button type="submit">Enregistrer la commande</button>
-    </form>
-    <div>
-        <a href="{% url 'profile' %}" class="btn-profile">Retour au profil</a>
+                <button type="submit" class="btn btn-success w-100">✅ Enregistrer la commande</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'profile' %}" class="btn btn-secondary">⬅ Retour au profil</a>
+            </div>
+        </div>
     </div>
 
+    <!-- Tableau de stock actuel -->
+    <h2 class="text-center mt-5 text-dark">📦 Stock actuel des produits</h2>
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered table-hover bg-white shadow-sm">
+            <thead class="table-primary">
+                <tr>
+                    <th>Nom du produit</th>
+                    <th>Quantité en stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produit in produits %}
+                    <tr>
+                        <td>{{ produit.nom }}</td>
+                        <td>{{ produit.quantite_stock }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>
+<div class="mb-3">
+    <label for="statut" class="form-label">Statut de livraison :</label>
+    <select name="statut" class="form-select" required>
+        <option value="en_cours">En Cours</option>
+        <option value="terminee">Terminée</option>
+        <option value="annulee">Annulée</option>
+    </select>
+</div>
