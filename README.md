@@ -33,11 +33,13 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Captures d’écran
+Manuel Utilisateur ( vidéo)
 
-*(Ajouter ici des captures de `rapport_ventes`, `liste_commandes`, `gestion_stock`, etc.)*
 
-Structure du projet
+[![Voir la vidéo](https://img.youtube.com/vi/ID_YOUTUBE/maxresdefault.jpg)](https://youtu.be/E5V-TxTaRu0)
+
+👉 Cliquez sur l’image pour regarder le manuel utilisateur.
+
 
 ```bash
 LogisALS/
