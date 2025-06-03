@@ -1,2 +1,78 @@
-# LogisALS
-une application web permettant à l’entreprise de gérer son inventaire, de suivre les ventes et les achats, et de générer des rapports détaillés sur les produits, les niveaux de stock et les besoins de réapprovisionnement. 
+LogisALS – Gestion de Stock et de Commandes
+
+LogisALS est une application web de gestion de stock et de commandes, conçue avec Django 5.2. Elle permet de suivre les produits, d’enregistrer des achats et ventes, de générer des rapports, et de gérer le stock en temps réel. Idéal pour les TPE/PME.
+
+Fonctionnalités
+
+- Ajout, modification, suppression de produits
+- Enregistrement des commandes (achats / ventes)
+- Suivi de stock avec seuils d’alerte
+- Gestion des statuts de commande
+- Rapports détaillés : par produit, par vendeur, par période
+- Graphiques de ventes et performances
+
+Technologies
+
+- Python 3.12
+- Django 5.2
+- SQLite (par défaut)
+- Bootstrap 5 + Chart.js
+
+Installation rapide
+
+```bash
+git clone https://github.com/megtaho/LogisALS.git
+cd LogisALS
+python -m venv env
+source env/bin/activate  # Sur Windows: env\Scripts\activate
+pip install -r requirements.txt
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Captures d’écran
+
+*(Ajouter ici des captures de `rapport_ventes`, `liste_commandes`, `gestion_stock`, etc.)*
+
+Structure du projet
+
+```bash
+LogisALS/
+├── inventaire/           # Application principale
+│   ├── models.py         # Modèles (Produit, Commande, Utilisateur)
+│   ├── views.py          # Vues logiques
+│   ├── forms.py          # Formulaires Django
+│   ├── templates/        # HTML frontend (Bootstrap)
+│   ├── urls.py           # Routes internes
+├── LogisALS/             # Réglages Django
+│   ├── settings.py       # Configuration du projet
+├── db.sqlite3            # Base de données locale
+├── manage.py             # Entrée CLI du projet
+```
+
+Sécurité
+
+- Authentification requise pour accéder aux données sensibles
+- Protection CSRF pour tous les formulaires
+- Rôles utilisateurs gérés via un modèle personnalisé
+
+Tests
+
+*(Ajouter des tests unitaires dans `tests.py`)*
+
+Contribution
+
+1. Fork le dépôt
+2. Crée une branche `feature/...`
+3. Soumets une Pull Request
+
+## 📄 Licence
+
+MIT – voir `LICENSE`.
+
+---
+
+Développé avec ❤️ par [megtaho](https://github.com/megtaho)   
