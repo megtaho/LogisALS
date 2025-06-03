@@ -26,6 +26,17 @@
                     </select>
                 </div>
 
+
+                <label for="statut">Statut :</label>
+                <select name="statut" id="statut" required class="form-select">
+                    <option value="en_cours">En cours</option>
+                    <option value="terminee">Terminée</option>
+                    <option value="annulee">Annulée</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
+
+
                 <div class="mb-3">
                     <label for="type_transaction" class="form-label">Type de transaction :</label>
                     <select name="type_transaction" class="form-select" required>
@@ -33,6 +44,7 @@
                         <option value="vente">Vente</option>
                     </select>
                 </div>
+                
 
                 <div class="mb-4">
                     <label for="quantite" class="form-label">Quantité :</label>
