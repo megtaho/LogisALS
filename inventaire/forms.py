@@ -5,4 +5,5 @@ from .models import Produit
 class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit  # Spécifie le modèle associé au formulaire
-        fields = ['nom', 'description', 'prix', 'quantite_stock']  # Les champs à inclure dans le formulaire
+        fields = ['nom', 'description', 'prix', 'quantite_stock', 'vendeur']  # Les champs à inclure dans le formulaire
+        
