@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport Complet</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">📊 Rapport Complet</h1>
+
+    <!-- Filtres -->
+    <form method="get" class="text-center mb-4">
+        <label class="me-2">Période :</label>
+        <select name="periode" class="form-select d-inline w-auto">
+            <option value="mois" {% if periode == 'mois' %}selected{% endif %}>Ce mois</option>
+            <option value="semaine" {% if periode == 'semaine' %}selected{% endif %}>Cette semaine</option>
+        </select>
+        <button class="btn btn-primary ms-2">Filtrer</button>
+    </form>
+
+    <!-- Montants globaux -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total des Achats</h5>
+                    <p class="card-text fs-4">{{ total_achats }} €</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Total des Ventes</h5>
+                    <p class="card-text fs-4">{{ total_ventes }} €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Montants par produit -->
+    <h3 class="mt-5 mb-3 text-secondary">💼 Montants par produit</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Produit</th>
+                <th>Montant des Achats (€)</th>
+                <th>Montant des Ventes (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in details_par_produit %}
+            <tr>
+                <td>{{ item.produit }}</td>
+                <td>{{ item.achat }}</td>
+                <td>{{ item.vente }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Liste des achats -->
+    <h3 class="mt-5 mb-3 text-success">📥 Détails des Achats</h3>
+    <table class="table table-hover">
+        <thead class="table-success">
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Montant</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for achat in achats %}
+            <tr>
+                <td>{{ achat.produit.nom }}</td>
+                <td>{{ achat.quantite }}</td>
+                <td>{{ achat.montant_total }} €</td>
+                <td>{{ achat.date|date:"d/m/Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Liste des ventes -->
+    <h3 class="mt-5 mb-3 text-primary">📤 Détails des Ventes</h3>
+    <table class="table table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th>Produit</th>
+                <th>Vendeur</th>
+                <th>Quantité</th>
+                <th>Montant</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vente in ventes %}
+            <tr>
+                <td>{{ vente.produit.nom }}</td>
+                <td>{{ item.vendeur }}</td>
+                <td>{{ vente.quantite }}</td>
+                <td>{{ vente.montant_total }} €</td>
+                <td>{{ vente.date|date:"d/m/Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Retour -->
+    <div class="text-center mt-4">
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Retour au profil</a>
+    </div>
+</div>
+
+</body>
+</html>
+<!-- Graphique Achat/Vente par produit -->
+<div class="mt-5">
+    <h3 class="text-center mb-4">📈 Évolution des achats et ventes par produit</h3>
+    <canvas id="evolutionChart" height="100"></canvas>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('evolutionChart').getContext('2d');
+
+    const labels = [{% for item in details_par_produit %}'{{ item.produit }}',{% endfor %}];
+    const dataAchats = [{% for item in details_par_produit %}{{ item.achat }},{% endfor %}];
+    const dataVentes = [{% for item in details_par_produit %}{{ item.vente }},{% endfor %}];
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Achats (€)',
+                    data: dataAchats,
+                    backgroundColor: 'rgba(40, 167, 69, 0.6)', // vert
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Ventes (€)',
+                    data: dataVentes,
+                    backgroundColor: 'rgba(0, 123, 255, 0.6)', // bleu
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Montants (€)' }
+                },
+                x: {
+                    title: { display: true, text: 'Produits' }
+                }
+            }
+        }
+    });
+</script>
+<h3 style="margin-top: 40px;">Répartition des statuts des commandes</h3>
+<canvas id="statutChart" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctxStatut = document.getElementById('statutChart').getContext('2d');
+    const statutChart = new Chart(ctxStatut, {
+        type: 'pie',
+        data: {
+            labels: {{ statut_labels|safe }},
+            datasets: [{
+                data: {{ statut_data|safe }},
+                backgroundColor: ['#007bff', '#28a745', '#dc3545'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#333'
+                    }
+                }
+            }
+        }
+    });
+</script>
+<form method="get" style="margin-bottom: 30px;">
+    <label for="periode">Période :</label>
+    <select name="periode" id="periode">
+        <option value="mois" {% if periode == 'mois' %}selected{% endif %}>Ce mois</option>
+        <option value="semaine" {% if periode == 'semaine' %}selected{% endif %}>Cette semaine</option>
+        <option value="toutes" {% if periode == 'toutes' %}selected{% endif %}>Toutes les périodes</option>
+    </select>
+
+    <label for="statut" style="margin-left: 20px;">Statut :</label>
+    <label for="statut" style="margin-left: 20px;">Statut :</label>
+    <select name="statut" id="statut">
+        <option value="" {% if not statut_filter %}selected{% endif %}>Tous</option>
+        <option value="en_cours" {% if statut_filter == 'en_cours' %}selected{% endif %}>En cours</option>
+        <option value="terminee" {% if statut_filter == 'terminee' %}selected{% endif %}>Terminée</option>
+        <option value="annulee" {% if statut_filter == 'annulee' %}selected{% endif %}>Annulée</option>
+    </select>
+
+    <button type="submit" style="margin-left: 10px;">Filtrer</button>
+</form>
