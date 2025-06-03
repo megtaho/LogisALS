@@ -3,37 +3,47 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-
-# Modèle Produit
 class Produit(models.Model):
-    nom = models.CharField(max_length=100)  # Le nom du produit
-    description = models.TextField()        # La description du produit
-    prix = models.PositiveIntegerField()  # Le prix du produit
-    quantite_stock = models.PositiveIntegerField()  # La quantité en stock
+    nom = models.CharField(max_length=100)
+    description = models.TextField()
+    prix = models.PositiveIntegerField()
+    quantite_stock = models.PositiveIntegerField()
+    date_ajout = models.DateTimeField(auto_now_add=True)
+    seuil_min = models.PositiveIntegerField(default=5)  # seuil critique
+    seuil_max = models.PositiveIntegerField(default=100)  # stock idéal  # 
+    vendeur = models.CharField(max_length=100, blank=True, null=True)  
+
+    def statut_stock(self):
+        if self.quantite_stock <= self.seuil_min:
+            return 'bas'
+        elif self.quantite_stock >= self.seuil_max:
+            return 'haut'
+        else:
+            return 'normal'
 
     def __str__(self):
-        return self.nom  # Renvoie le nom du produit dans l'admin Django
-    
+        return self.nom
+
     def save(self, *args, **kwargs):
         if self.quantite_stock < 0:
-            raise   ValueError("la quantité en stock ne peut pas être négative")
-        super(Produit, self).save(*args, **kwargs)
+            raise ValueError("La quantité en stock ne peut pas être négative.")
+        super().save(*args, **kwargs)
 
-# Modèle Utilisateur
+
 class Utilisateur(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     ROLE_CHOICES = [
         ('admin', 'Administrateur'),
         ('employe', 'Employé'),
     ]
-    nom = models.CharField(max_length=100)  # Le nom de l'utilisateur
-    email = models.EmailField()             # L'email de l'utilisateur
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES)  # Le rôle de l'utilisateur (admin ou employé)
+    nom = models.CharField(max_length=100)
+    email = models.EmailField()
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
 
     def __str__(self):
-        return self.user.nom  # Renvoie le nom de l'utilisateur dans l'admin Django
+        return self.nom  # Corrigé : self.nom au lieu de self.user.nom
 
-# Modèle Commande
+
 class Commande(models.Model):
     TYPE_CHOICES = [
         ('achat', 'Achat'),
@@ -44,53 +54,49 @@ class Commande(models.Model):
         ('terminee', 'Terminée'),
         ('annulee', 'Annulée'),
     ]
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)  # Type de la commande (achat ou vente)
-    date = models.DateTimeField(default=timezone.now)  # La date de la commande
-    montant_total = models.DecimalField(max_digits=10, decimal_places=2)  # Le montant total de la commande
-    quantite = models.PositiveIntegerField()  # La quantité de produits commandés
-    statut = models.CharField(max_length=10, choices=STATUT_CHOICES)  # Le statut de la commande (en cours, terminée, annulée)
-    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)  # Le produit associé à la commande
-    utilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)  # L'utilisateur qui a effectué la commande
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    date = models.DateTimeField(default=timezone.now)
+    montant_total = models.DecimalField(max_digits=10, decimal_places=2)
+    quantite = models.PositiveIntegerField()
+    statut = models.CharField(max_length=10, choices=STATUT_CHOICES)
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
+    utilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.type} - {self.produit.nom}'  # Affiche le type de commande et le nom du produit
-    
+        return f'{self.type} - {self.produit.nom}'
+
     def save(self, *args, **kwargs):
-        # Empêcher de sauver une commande avec une quantité en stock négative
         if self.quantite < 0:
             raise ValueError("La quantité de la commande ne peut pas être négative.")
-        
-        # Vérification du type de transaction (achat ou vente)
+
         if self.type == 'vente':
-            # Vérifier que le stock est suffisant pour la vente
             if self.quantite > self.produit.quantite_stock:
                 raise ValueError("La quantité demandée est supérieure au stock disponible.")
-            
-            # Réduire le stock pour la vente
             self.produit.quantite_stock -= self.quantite
-
         elif self.type == 'achat':
-            # Augmenter le stock pour l'achat
             self.produit.quantite_stock += self.quantite
-        
-        # Sauvegarder les changements du produit
-        self.produit.save()
 
-        # Appeler la méthode save() de la commande après avoir modifié le stock
+        self.produit.save()
         super().save(*args, **kwargs)
 
 
-# Modèle Rapport
 class Rapport(models.Model):
     TYPE_CHOICES = [
         ('vente', 'Vente'),
         ('stock', 'Stock'),
         ('reapprovisionnement', 'Réapprovisionnement'),
     ]
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES)  # Le type de rapport (vente, stock, réapprovisionnement)
-    date_generation = models.DateField()  # La date de génération du rapport
-    resume = models.TextField()  # Le résumé du rapport
-    statut = models.CharField(max_length=15, choices=[('en_attente', 'En Attente'), ('termine', 'Terminé')], default='en_attente')  # Statut du rapport
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    date_generation = models.DateField()
+    resume = models.TextField()
+    statut = models.CharField(
+        max_length=15,
+        choices=[
+            ('en_attente', 'En Attente'),
+            ('termine', 'Terminé')
+        ],
+        default='en_attente'
+    )
 
     def __str__(self):
-        return f'Rapport {self.type} - {self.date_generation}'  # Affiche le type et la date de génération du rapport
+        return f'Rapport {self.type} - {self.date_generation}'
