@@ -32,10 +32,11 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
+Manuel utilisateur
 
-Captures d’écran
+[![Voir la vidéo](https://img.youtube.com/vi/ID_YOUTUBE/maxresdefault.jpg)](https://youtu.be/E5V-TxTaRu0)
 
-*(Ajouter ici des captures de `rapport_ventes`, `liste_commandes`, `gestion_stock`, etc.)*
+👉 Cliquez sur l’image pour regarder le manuel utilisateur.
 
 Structure du projet
 
@@ -59,9 +60,6 @@ Sécurité
 - Protection CSRF pour tous les formulaires
 - Rôles utilisateurs gérés via un modèle personnalisé
 
-Tests
-
-*(Ajouter des tests unitaires dans `tests.py`)*
 
 Contribution
 
