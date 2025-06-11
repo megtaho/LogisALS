@@ -25,5 +25,8 @@ urlpatterns = [
 
     path('a-propos/', views.a_propos, name='a_propos'),
 
+    path('stock/evolution/', views.evolution_stock, name='evolution_stock'),
+
+
 
 ]

@@ -29,8 +29,14 @@ def inscription(request):
 
 # Profil et accueil
 def profile(request):
-    return render(request, 'inventaire/profile.html')
+    produits = Produit.objects.all()
+    stock_bas = [p for p in produits if p.quantite_stock < p.seuil_min]
 
+    for p in stock_bas:
+        messages.error(request, f"⚠️ Stock bas pour « {p.nom} » : {p.quantite_stock} (seuil : {p.seuil_min})")
+    return render(request, 'inventaire/profile.html', {
+        'nb_stock_bas': len(stock_bas),
+    })
 def accueil(request):
     return render(request, 'inventaire/accueil.html')
 
@@ -266,6 +272,40 @@ def modifier_statut_commande(request, pk):
 @login_required
 def gestion_stock(request):
     produits = Produit.objects.all()
+    for p in produits:
+        if p.quantite_stock < p.seuil_min:
+            messages.error(request, f"Stock bas pour « {p.nom} » ({p.quantite_stock} < {p.seuil_min})")
     return render(request, 'inventaire/gestion_stock.html', {
         'produits': produits
     })
+
+@login_required
+def evolution_stock(request):
+    produits = Produit.objects.all()
+    produit_id = request.GET.get('produit')
+    date_debut = request.GET.get('date_debut')
+    date_fin = request.GET.get('date_fin')
+
+    historique = []
+    if produit_id and date_debut and date_fin:
+        p = get_object_or_404(Produit, pk=produit_id)
+        commandes = Commande.objects.filter(
+            produit=p,
+            date__range=[date_debut, date_fin]
+        ).order_by('date')
+        solde = p.quantite_stock
+        for c in commandes:
+            historique.append({
+                'date': c.date.strftime('%Y-%m-%d'),
+                'stock': solde
+            })
+            solde += c.quantite if c.type == 'achat' else -c.quantite
+
+    context = {
+        'produits': produits,
+        'historique': json.dumps(historique),
+        'selected': produit_id or '',
+        'debut': date_debut or '',
+        'fin': date_fin or '',
+    }
+    return render(request, 'inventaire/evolution_stock.html', context)
