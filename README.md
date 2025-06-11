@@ -32,9 +32,16 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
+Manuel utilisateur
 
+<<<<<<< HEAD
 Manuel Utilisateur ( vidéo)
 
+=======
+[![Voir la vidéo](https://img.youtube.com/vi/ID_YOUTUBE/maxresdefault.jpg)](https://youtu.be/E5V-TxTaRu0)
+
+👉 Cliquez sur l’image pour regarder le manuel utilisateur.
+>>>>>>> f9cdaf53d9899d9e738ed288d9baf19383b3ccb4
 
 [![Voir la vidéo](https://img.youtube.com/vi/ID_YOUTUBE/maxresdefault.jpg)](https://youtu.be/E5V-TxTaRu0)
 
@@ -61,9 +68,6 @@ Sécurité
 - Protection CSRF pour tous les formulaires
 - Rôles utilisateurs gérés via un modèle personnalisé
 
-Tests
-
-*(Ajouter des tests unitaires dans `tests.py`)*
 
 Contribution
 
