@@ -1,0 +1,59 @@
+<style>
+  .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    text-shadow: 0 0 10px #ffffff;
+    color: #fff !important;
+  }
+
+  .navbar-brand {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: white !important;
+  }
+
+  .navbar-brand:hover {
+    text-shadow: 0 0 10px #ffffff;
+    color: #fff !important;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary w-100 py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand me-4" href="{% url 'profile' %}">LogisALS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item ms-2"><a class="nav-link" href="{% url 'liste_produits' %}">Produits</a></li>
+        <li class="nav-item ms-2"><a class="nav-link" href="{% url 'liste_commandes' %}">Commandes</a></li>
+        <li class="nav-item ms-2"><a class="nav-link" href="{% url 'rapport_complet' %}">Rapports</a></li>
+
+        <li class="nav-item ms-2">
+          <a class="nav-link position-relative" href="{% url 'gestion_stock' %}">
+            Stock
+            {% if nb_stock_bas and nb_stock_bas > 0 %}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ nb_stock_bas }}
+              <span class="visually-hidden">produits en stock bas</span>
+            </span>
+            {% endif %}
+          </a>
+        </li>
+
+        <li class="nav-item ms-2"><a class="nav-link" href="{% url 'evolution_stock' %}">Évolution stock</a></li>
+        <li class="nav-item ms-2"><a class="nav-link" href="{% url 'accueil' %}">Se déconnecter</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
